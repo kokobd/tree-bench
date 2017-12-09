@@ -1,5 +1,12 @@
 package com.github.zelinf.tree_bench.dictionary;
 
+import com.github.zelinf.tree_bench.dictionary.util.CodePointReader;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A word, obeying the following specification:
  * <blockquote>
@@ -20,20 +27,45 @@ package com.github.zelinf.tree_bench.dictionary;
 public final class Word implements Comparable<Word> {
 
     private String word = "";
-    private static final int MAX_LENGTH = 20;
+
+    public Word() {
+    }
 
     public Word(String string) {
         if (checkIsWord(string)) {
             word = string;
-            if (word.length() > MAX_LENGTH) {
-                word = word.substring(0, MAX_LENGTH);
-            }
         }
     }
 
+    public boolean isEmpty() {
+        return word.equals("");
+    }
+
     private boolean checkIsWord(String string) {
-        // TODO check whether 'string' is a valid word
-        return false;
+        int length = string.codePointCount(0, string.length());
+        int previousCodePoint = ' ';
+        for (int i = 0; i < length; i++) {
+
+            int currentCodePoint = string.codePointAt(
+                    string.offsetByCodePoints(0, i));
+
+            if (!Character.isAlphabetic(currentCodePoint)) { // not a letter
+                if ((currentCodePoint == '\'' || currentCodePoint == '-')
+                        && Character.isAlphabetic(previousCodePoint)) {
+                    if (i == length - 1
+                            || !Character.isAlphabetic(
+                            string.codePointAt(
+                                    string.offsetByCodePoints(0, i + 1)))) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+            previousCodePoint = currentCodePoint;
+        }
+
+        return true;
     }
 
     @Override
@@ -59,5 +91,67 @@ public final class Word implements Comparable<Word> {
     @Override
     public String toString() {
         return word;
+    }
+
+    private static Word newWordUnchecked(String word) {
+        Word result = new Word();
+        result.word = word;
+        return result;
+    }
+
+    public static List<Word> readWords(Reader reader) throws IOException {
+        CodePointReader codePointReader = null;
+        List<Word> words = new ArrayList<>();
+        try {
+            codePointReader = new CodePointReader(reader);
+
+            StringBuilder currentWord = null;
+            boolean inWord = false;
+
+            int currentCodePoint;
+            int nextCodePoint = -1;
+            boolean hasNext = false;
+            if (codePointReader.hasNext()) {
+                nextCodePoint = codePointReader.nextCodePoint();
+                hasNext = true;
+            }
+
+            while (hasNext) {
+                currentCodePoint = nextCodePoint;
+                if (codePointReader.hasNext()) {
+                    nextCodePoint = codePointReader.nextCodePoint();
+                } else {
+                    hasNext = false;
+                }
+
+                if (inWord) {
+                    if (Character.isAlphabetic(currentCodePoint) ||
+                            ((currentCodePoint == '-' || currentCodePoint == '\'') &&
+                                    Character.isAlphabetic(nextCodePoint))) {
+                        currentWord.appendCodePoint(currentCodePoint);
+                    } else {
+                        words.add(newWordUnchecked(currentWord.toString()));
+                        currentWord = null;
+                        inWord = false;
+                    }
+                } else { // not in word
+                    if (Character.isAlphabetic(currentCodePoint)) {
+                        inWord = true;
+                        currentWord = new StringBuilder();
+                        currentWord.appendCodePoint(currentCodePoint);
+                    }
+                }
+            }
+
+            if (currentWord != null) {
+                words.add(newWordUnchecked(currentWord.toString()));
+            }
+
+        } finally {
+            if (codePointReader != null)
+                codePointReader.close();
+        }
+
+        return words;
     }
 }
