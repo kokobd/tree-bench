@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * A word, obeying the following specification:
@@ -68,8 +69,17 @@ public final class Word implements Comparable<Word> {
         return true;
     }
 
+    public void setOnCompare(BiConsumer<Word, Word> biConsumer) {
+        onCompare = biConsumer;
+    }
+
+    // no-op by default
+    private BiConsumer<Word, Word> onCompare = (a, b) -> {
+    };
+
     @Override
     public int compareTo(Word o) {
+        onCompare.accept(this, o);
         return word.compareToIgnoreCase(o.word);
     }
 
