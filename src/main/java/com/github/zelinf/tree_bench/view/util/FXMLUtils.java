@@ -7,16 +7,19 @@ import java.io.IOException;
 
 public final class FXMLUtils {
 
-    public static <T extends Parent> void loadFXML(T controller) {
+    public static <T extends Parent, C> C loadFXML(T view) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setRoot(controller);
-        loader.setController(controller);
+        loader.setRoot(view);
+        loader.setClassLoader(view.getClass().getClassLoader());
 
-        String fileName = controller.getClass().getSimpleName() + ".fxml";
+        String fileName = view.getClass().getSimpleName() + ".fxml";
+        C controller;
         try {
-            loader.load(controller.getClass().getResourceAsStream(fileName));
+            loader.load(view.getClass().getResourceAsStream(fileName));
+            controller = loader.getController();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return controller;
     }
 }

@@ -1,18 +1,14 @@
 package com.github.zelinf.tree_bench.view;
 
 import com.github.zelinf.tree_bench.view.util.FXMLUtils;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
 public class FileAdder extends AnchorPane {
 
+    private FileAdderController controller;
+
     public FileAdder() {
-        FXMLUtils.loadFXML(this);
+        controller = FXMLUtils.loadFXML(this);
     }
 
-    @FXML
-    public void onAddFile(ActionEvent event) {
-        System.out.println("Adding file");
-    }
 }
