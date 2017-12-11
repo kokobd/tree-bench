@@ -16,11 +16,18 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-compileJava.doLast {
-    copy {
-        from 'src/main/java'
-        into 'build/classes/java/main'
-        include('**/*.fxml')
-    }
+//compileJava.doLast {
+//    copy {
+//        from 'src/main/java'
+//        into 'build/classes/java/main'
+//        include('**/*.fxml')
+//    }
+//}
+
+task copyFXML(type: Copy) {
+    from 'src/main/java'
+    into 'build/classes/java/main'
+    include('**/*.fxml')
 }
 
+compileJava.dependsOn copyFXML

@@ -1,5 +1,10 @@
 package com.github.zelinf.tree_bench.view;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ReadOnlyListProperty;
+import javafx.beans.property.ReadOnlyListWrapper;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,11 +19,22 @@ import java.util.stream.Collectors;
 
 public class FileAdderController {
 
+    private ReadOnlyListWrapper<Path> paths = new ReadOnlyListWrapper<>();
+
+    public ReadOnlyListProperty<Path> pathsProperty() {
+        return paths.getReadOnlyProperty();
+    }
+
+    @FXML
+    public void initialize() {
+        paths.setValue(fileListView.getItems());
+    }
+
     @FXML
     private ListView<Path> fileListView;
 
     @FXML
-    void onAdd(ActionEvent event) {
+    private void onAdd(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose file(s) to add");
         fileChooser.getExtensionFilters().addAll(
@@ -38,7 +54,7 @@ public class FileAdderController {
 
     @FXML
     @SuppressWarnings("UnusedParameters")
-    void onClear(ActionEvent ignored) {
+    private void onClear(ActionEvent ignored) {
         fileListView.itemsProperty().getValue().clear();
     }
 }

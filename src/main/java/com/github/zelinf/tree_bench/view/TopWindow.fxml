@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.github.zelinf.tree_bench.view.FileAdder?>
+<?import com.github.zelinf.tree_bench.view.StatisticsPane?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<?import com.github.zelinf.tree_bench.view.FileAdder?>
-<fx:root prefHeight="600.0" prefWidth="800.0" type="BorderPane" xmlns="http://javafx.com/javafx"
-         xmlns:fx="http://javafx.com/fxml/1">
-    <left>
-        <FileAdder/>
-    </left>
+<fx:root prefHeight="600.0" prefWidth="800.0" type="BorderPane"
+         fx:controller="com.github.zelinf.tree_bench.view.TopWindowController"
+         xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <Menu mnemonicParsing="false" text="Languages">
+                <MenuItem mnemonicParsing="false" text="Restart in..."/>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+                <MenuItem mnemonicParsing="false" text="About"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.3" BorderPane.alignment="CENTER">
+            <FileAdder fx:id="fileAdder"/>
+            <StatisticsPane fx:id="statisticsPane"/>
+        </SplitPane>
+    </center>
 </fx:root>

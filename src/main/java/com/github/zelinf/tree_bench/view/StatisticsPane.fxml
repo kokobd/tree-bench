@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.github.zelinf.tree_bench.view.StatisticsPaneController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.StatisticsPaneController">
+    <GridPane minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <opaqueInsets>
+            <Insets />
+        </opaqueInsets>
+        <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnSpan="2">
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <Label text="Number of distinct words:">
+                <HBox.margin>
+                    <Insets right="10.0" />
+                </HBox.margin>
+            </Label>
+            <TextField editable="false" text="5012" HBox.hgrow="ALWAYS" />
+        </HBox>
+    </GridPane>
+</fx:root>
