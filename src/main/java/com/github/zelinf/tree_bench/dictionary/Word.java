@@ -12,7 +12,7 @@ import java.util.function.BiConsumer;
  * A word, obeying the following specification:
  * <blockquote>
  * A word is defined as a sequence of letters, together with
- * apostrophes (’) and hyphens (-), provided that the apostrophe or
+ * apostrophes (') and hyphens (-), provided that the apostrophe or
  * hyphen is both immediately preceded and followed by a letter.
  * Uppercase and lowercase letters should be regarded as the same
  * (by translating all letters into either uppercase or lowercase,
