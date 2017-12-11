@@ -1,5 +1,6 @@
 package com.github.zelinf.tree_bench;
 
+import com.github.zelinf.tree_bench.view.TopWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,16 +19,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Main Application");
-        FXMLLoader loader = new FXMLLoader();
-        try {
-            Parent rootPane = loader.load(Main.class.getResourceAsStream("view/MainView.fxml"));
+        primaryStage.setTitle("My Application");
 
-            Scene scene = new Scene(rootPane);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        TopWindow topWindow = new TopWindow();
+        Scene scene = new Scene(topWindow);
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }
