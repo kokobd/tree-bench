@@ -7,33 +7,29 @@ import org.junit.Test;
 
 import java.util.Collections;
 
-import static org.junit.Assert.*;
-
 public class StandardTreeTest {
 
-    private StandardTree tree;
+    private StandardTree<String, Integer> tree = new StandardTree<>();
 
-    @Before
-    public void setUp() throws Exception {
-        tree = new StandardTree();
-        tree.addThenLookup(new Word("hello"));
-        tree.addThenLookup(new Word("zelin"));
-        tree.addThenLookup(new Word("abc"));
+    @Test
+    public void putGetSize() throws Exception {
+        Assert.assertEquals(Integer.valueOf(12), tree.put("Hello", 12));
+        Assert.assertEquals(Integer.valueOf(13), tree.put("Hello", 13));
+
+        Assert.assertEquals(1, tree.size());
+        Assert.assertEquals(Integer.valueOf(13), tree.get("Hello"));
     }
 
     @Test
     public void treeHeight() throws Exception {
-        Assert.assertEquals(2, tree.treeHeight());
+        Assert.assertEquals(0, tree.height());
+
+        tree.put("1", 2);
+        Assert.assertEquals(1, tree.height());
     }
 
     @Test
     public void deepestWord() throws Exception {
-        Assert.assertEquals(Collections.emptyList(), tree.deepestWord());
+        Assert.assertEquals(Collections.emptyList(), tree.deepestEntries());
     }
-
-    @Test
-    public void totalWords() throws Exception {
-        Assert.assertEquals(3, tree.totalWords());
-    }
-
 }

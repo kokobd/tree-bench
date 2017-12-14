@@ -1,51 +1,59 @@
 package com.github.zelinf.tree_bench.dictionary.impl;
 
 import com.github.zelinf.tree_bench.dictionary.TreeDictionary;
-import com.github.zelinf.tree_bench.dictionary.Word;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.function.BiFunction;
 
-/**
- * A {@link TreeDictionary} implementation using {@link TreeMap}
- * in Java Standard Collection Framework.
- */
-public class StandardTree extends TreeDictionary {
+public class StandardTree<K, V> implements TreeDictionary<K, V> {
 
-    private TreeMap<Word, Integer> dict;
+    private TreeMap<K, V> treeMap;
 
     public StandardTree() {
-        dict = new TreeMap<>(this::countedCompare);
-    }
-
-    public StandardTree(int maxNumTopWords) {
-        this();
-        this.maxNumTopWords = maxNumTopWords;
-    }
-
-    /**
-     * Get height of the tree. Not accurate.
-     *
-     * @return height of the tree.
-     */
-    @Override
-    public int treeHeight() {
-        return (int) Math.ceil(Math.log(dict.size()) / Math.log(2));
+        treeMap = new TreeMap<>();
     }
 
     @Override
-    public List<Word> deepestWord() {
+    public int height() {
+        return (int) (Math.log(treeMap.size() + 1) / Math.log(2));
+    }
+
+    @Override
+    public List<Map.Entry<K, V>> deepestEntries() {
         return Collections.emptyList();
     }
 
     @Override
-    protected int addThenLookup(Word word) {
-        return dict.compute(word, (w, freq) -> freq != null ? freq + 1 : 1);
+    public Type getType() {
+        return Type.STANDARD;
     }
 
     @Override
-    public int totalWords() {
-        return dict.size();
+    public void setComparator(Comparator<? super K> comparator) {
+        Objects.requireNonNull(comparator);
+        if (size() != 0) {
+            throw new IllegalStateException("Comparator may be set only when the tree is empty");
+        }
+        treeMap = new TreeMap<>(comparator);
+    }
+
+    @Override
+    public Comparator<? super K> getComparator() {
+        return treeMap.comparator();
+    }
+
+    @Override
+    public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
+        return treeMap.compute(key, remappingFunction);
+    }
+
+    @Override
+    public int size() {
+        return treeMap.size();
+    }
+
+    @Override
+    public Iterator<Map.Entry<K, V>> iterator() {
+        return treeMap.entrySet().iterator();
     }
 }
