@@ -93,7 +93,7 @@ public class BinaryTreeDictionary<K, V> implements TreeDictionary<K, V> {
     public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction) {
         return tree.putOrUpdate(new NullValueEntry<>(key), (newEntry, oldEntry) -> {
             K theKey = newEntry.getKey();
-            return new Entry<>(theKey, remappingFunction.apply(theKey, oldEntry.getValue()));
+            return new Entry<>(theKey, remappingFunction.apply(theKey, oldEntry == null ? null : oldEntry.getValue()));
         }).getValue();
     }
 
@@ -107,26 +107,21 @@ public class BinaryTreeDictionary<K, V> implements TreeDictionary<K, V> {
         return tree.inorderIterator();
     }
 
-    private static class NullValueEntry<K, V> implements Map.Entry<K, V> {
-        private K key;
-
+    private static class NullValueEntry<K, V> extends Entry<K, V> {
         NullValueEntry(K key) {
-            this.key = key;
-        }
-
-        @Override
-        public K getKey() {
-            return key;
-        }
-
-        @Override
-        public V getValue() {
-            return null;
+            super(key, null);
         }
 
         @Override
         public V setValue(V value) {
-            return null;
+            throw new UnsupportedOperationException("Can not call setValue on NullValueEntry");
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public int compareTo(Map.Entry<K, V> entry) {
+            Comparable<? super K> cKey = (Comparable<? super K>) getKey();
+            return cKey.compareTo(entry.getKey());
         }
     }
 }

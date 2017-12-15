@@ -34,6 +34,7 @@ class SimpleBinaryTree<E> extends BinaryTree<E> {
         if (getRoot() == null) {
             E newData = remapping.apply(elem, null);
             setRoot(new Node<>(newData));
+            size++;
         }
         return putOrUpdateNode(getRoot(), elem, remapping).getData();
     }
@@ -47,6 +48,7 @@ class SimpleBinaryTree<E> extends BinaryTree<E> {
             if (root.getLeft() == null) {
                 updatedNode = new Node<>(remapping.apply(elem, null));
                 root.setLeft(updatedNode);
+                size++;
             } else {
                 updatedNode = putOrUpdateNode(root.getLeft(), elem, remapping);
             }
@@ -54,6 +56,7 @@ class SimpleBinaryTree<E> extends BinaryTree<E> {
             if (root.getRight() == null) {
                 updatedNode = new Node<>(remapping.apply(elem, null));
                 root.setRight(updatedNode);
+                size++;
             } else {
                 updatedNode = putOrUpdateNode(root.getRight(), elem, remapping);
             }
