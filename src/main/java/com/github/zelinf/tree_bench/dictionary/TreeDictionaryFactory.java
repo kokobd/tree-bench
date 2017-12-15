@@ -1,17 +1,12 @@
 package com.github.zelinf.tree_bench.dictionary;
 
+import java.util.List;
+
 public final class TreeDictionaryFactory {
 
-    @SuppressWarnings("unchecked")
-    public static <K, V> TreeDictionary<K, V> newInstance(TreeDictionary.Type type) {
-        TreeDictionary instance;
-        try {
-            instance = type.getImplementation().newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-
-        return (TreeDictionary<K, V>) instance;
+    public static <K, V> List<TreeDictionary<K, V>> allDictionaries() {
+        // TODO return a list of all dictionaries, without comparator decorated.
+        return null;
     }
 
 }

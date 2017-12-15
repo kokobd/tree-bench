@@ -17,7 +17,7 @@ public interface TreeDictionary<K, V> extends Dictionary<K, V> {
 
     List<Map.Entry<K, V>> deepestEntries();
 
-    Type getType();
+    String getName();
 
     /**
      * Set the key-comparator used by the tree.
@@ -29,16 +29,4 @@ public interface TreeDictionary<K, V> extends Dictionary<K, V> {
     void setComparator(Comparator<? super K> comparator);
 
     Comparator<? super K> getComparator();
-
-    enum Type {
-        STANDARD {
-            @Override
-            public Class<? extends TreeDictionary> getImplementation() {
-                return StandardTree.class;
-            }
-        };
-
-        public abstract Class<? extends TreeDictionary> getImplementation();
-    }
-
 }

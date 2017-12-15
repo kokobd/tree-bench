@@ -45,16 +45,8 @@ public class DictionariesModel {
      * Init or clear {@link #dictionaries}
      */
     private void initDictionaries() {
-        dictionaries = Arrays.stream(TreeDictionary.Type.values())
-                .sequential()
-                .map(type -> {
-                    TreeDictionary<Word, Integer> dictionary = TreeDictionaryFactory.newInstance(type);
-                    dictionary.setComparator(
-                            new CountedComparator<>()
-                    );
-                    return dictionary;
-                })
-                .collect(Collectors.toCollection(SimpleListProperty::new));
+        TreeDictionaryFactory.allDictionaries();
+        // TODO implement this method
     }
 
     public void addFile(Path path) {

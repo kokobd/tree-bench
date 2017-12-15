@@ -24,8 +24,8 @@ public class StandardTree<K, V> implements TreeDictionary<K, V> {
     }
 
     @Override
-    public Type getType() {
-        return Type.STANDARD;
+    public String getName() {
+        return "Standard";
     }
 
     @Override

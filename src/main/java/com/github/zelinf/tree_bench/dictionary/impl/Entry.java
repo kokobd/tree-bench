@@ -1,5 +1,6 @@
 package com.github.zelinf.tree_bench.dictionary.impl;
 
+import java.util.Comparator;
 import java.util.Map;
 
 public class Entry<K, V> implements Map.Entry<K, V> {
@@ -27,5 +28,4 @@ public class Entry<K, V> implements Map.Entry<K, V> {
         this.value = value;
         return value;
     }
-
 }
