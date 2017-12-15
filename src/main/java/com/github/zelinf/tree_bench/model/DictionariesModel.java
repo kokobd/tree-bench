@@ -23,19 +23,7 @@ import java.util.stream.Collectors;
  */
 public class DictionariesModel {
 
-    private ListProperty<TreeDictionary<Word, Integer>> dictionaries = new SimpleListProperty<>();
-
-    public ObservableList<TreeDictionary<Word, Integer>> getDictionaries() {
-        return dictionaries.get();
-    }
-
-    public ListProperty<TreeDictionary<Word, Integer>> dictionariesProperty() {
-        return dictionaries;
-    }
-
-    public void setDictionaries(ObservableList<TreeDictionary<Word, Integer>> dictionaries) {
-        this.dictionaries.set(dictionaries);
-    }
+    private List<TreeDictionary<Word, Integer>> dictionaries = new SimpleListProperty<>();
 
     public DictionariesModel() {
         initDictionaries();
@@ -45,8 +33,8 @@ public class DictionariesModel {
      * Init or clear {@link #dictionaries}
      */
     private void initDictionaries() {
-        TreeDictionaryFactory.allDictionaries();
-        // TODO implement this method
+        dictionaries = TreeDictionaryFactory.allDictionaries();
+        // TODO
     }
 
     public void addFile(Path path) {
@@ -111,5 +99,7 @@ public class DictionariesModel {
         }
     }
 
-
+    public void clear() {
+        initDictionaries();
+    }
 }

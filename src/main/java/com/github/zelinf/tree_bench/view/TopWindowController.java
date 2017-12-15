@@ -18,6 +18,7 @@ public class TopWindowController {
         fileAdder.pathsProperty().addListener(new ListChangeListener<Path>() {
             @Override
             public void onChanged(Change<? extends Path> c) {
+
                 // TODO call methods on model.
             }
         });

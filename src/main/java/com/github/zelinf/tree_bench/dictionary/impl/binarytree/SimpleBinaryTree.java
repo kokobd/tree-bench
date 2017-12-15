@@ -32,12 +32,38 @@ class SimpleBinaryTree<E> extends BinaryTree<E> {
         Objects.requireNonNull(remapping);
 
         if (getRoot() == null) {
-            setRoot(new Node<>(remapping.apply(elem, null)));
+            E newData = remapping.apply(elem, null);
+            setRoot(new Node<>(newData));
+        }
+        return putOrUpdateNode(getRoot(), elem, remapping).getData();
+    }
+
+    // Assume root is never null
+    private BinaryTree.Node<E> putOrUpdateNode(BinaryTree.Node<E> root, E elem,
+                                               BiFunction<? super E, ? super E, ? extends E> remapping) {
+        BinaryTree.Node<E> updatedNode;
+        int compResult = getComparator().compare(elem, root.getData());
+        if (compResult < 0) {
+            if (root.getLeft() == null) {
+                updatedNode = new Node<>(remapping.apply(elem, null));
+                root.setLeft(updatedNode);
+            } else {
+                updatedNode = putOrUpdateNode(root.getLeft(), elem, remapping);
+            }
+        } else if (compResult > 0) {
+            if (root.getRight() == null) {
+                updatedNode = new Node<>(remapping.apply(elem, null));
+                root.setRight(updatedNode);
+            } else {
+                updatedNode = putOrUpdateNode(root.getRight(), elem, remapping);
+            }
         } else {
-            // TODO actually insert the element.
+            E newData = remapping.apply(elem, root.getData());
+            root.setData(newData);
+            updatedNode = root;
         }
 
-        return null;
+        return updatedNode;
     }
 
     static class Node<E> extends BinaryTree.Node<E> {
