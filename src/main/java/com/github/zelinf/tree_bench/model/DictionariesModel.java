@@ -3,8 +3,7 @@ package com.github.zelinf.tree_bench.model;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionary;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionaryFactory;
 import com.github.zelinf.tree_bench.dictionary.Word;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
@@ -23,18 +22,20 @@ import java.util.stream.Collectors;
  */
 public class DictionariesModel {
 
-    private List<TreeDictionary<Word, Integer>> dictionaries = new SimpleListProperty<>();
+    private ReadOnlyListWrapper<DictionaryStat> dictionaryStats = new ReadOnlyListWrapper<>();
 
     public DictionariesModel() {
         initDictionaries();
     }
 
-    /**
-     * Init or clear {@link #dictionaries}
-     */
     private void initDictionaries() {
-        dictionaries = TreeDictionaryFactory.allDictionaries();
-        // TODO
+        List<TreeDictionary<Word, Integer>> dictionaries =
+                TreeDictionaryFactory.allDictionaries();
+        dictionaryStats.clear();
+        for (TreeDictionary<Word, Integer> dictionary : dictionaries) {
+            DictionaryStat dictionaryStat = new DictionaryStat(dictionary);
+            dictionaryStats.add(dictionaryStat);
+        }
     }
 
     public void addFile(Path path) {
@@ -50,36 +51,9 @@ public class DictionariesModel {
             throw new AddFileException("Failed to add file due to IO error.", e);
         }
 
-        // TODO
-    }
-
-    private static Statistics addWordsToDictionary(List<Word> words, TreeDictionary<Word, Integer> dictionary) {
-        Statistics statistics = new Statistics();
-
-        long begin = System.nanoTime();
-        for (Word word : words) {
-            dictionary.compute(word, (w, count) -> count == null ? 1 : count + 1);
+        for (DictionaryStat stat : dictionaryStats) {
+            stat.addWords(words);
         }
-        long end = System.nanoTime();
-        Duration timeElapsed = Duration.of(end - begin, ChronoUnit.NANOS);
-
-        statistics.setTimeElapsed(timeElapsed);
-
-        statistics.setDeepestWords(
-                dictionary.deepestEntries().stream()
-                        .map(Map.Entry::getKey)
-                        .collect(Collectors.toList()));
-        statistics.setHeightOfTree(dictionary.height());
-        Comparator<? super Word> comparator = dictionary.getComparator();
-        if (comparator instanceof CountedComparator) {
-            statistics.setNumberOfComp(((CountedComparator) comparator)
-                    .getNumberOfComparison());
-        } else {
-            statistics.setNumberOfComp(0);
-        }
-        statistics.setTotalWords(dictionary.size());
-
-        return statistics;
     }
 
     private List<Pair<Word, Integer>> findTopWords(TreeDictionary<Word, Integer> dictionary) {
@@ -101,5 +75,13 @@ public class DictionariesModel {
 
     public void clear() {
         initDictionaries();
+    }
+
+    public ObservableList<DictionaryStat> getDictionaryStats() {
+        return dictionaryStatsProperty().getValue();
+    }
+
+    public ReadOnlyListProperty<DictionaryStat> dictionaryStatsProperty() {
+        return dictionaryStats.getReadOnlyProperty();
     }
 }
