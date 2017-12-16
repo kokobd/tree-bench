@@ -19,7 +19,6 @@ public class FileAdder extends AnchorPane {
         return pathsProperty().get();
     }
 
-    @SuppressWarnings("WeakerAccess")
     public ReadOnlyListProperty<Path> pathsProperty() {
         return controller.pathsProperty();
     }

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.github.zelinf.tree_bench.view.WordFreqList?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,20 +13,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.StatisticsPaneController">
-    <GridPane minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-        </rowConstraints>
+<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.StatisticsPaneController">
+    <GridPane AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="10.0">
         <columnConstraints>
-            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
         </columnConstraints>
-        <opaqueInsets>
-            <Insets />
-        </opaqueInsets>
-        <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnSpan="2">
+        <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.vgrow="NEVER">
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
@@ -31,7 +33,34 @@
                     <Insets right="10.0" />
                 </HBox.margin>
             </Label>
-            <TextField editable="false" text="5012" HBox.hgrow="ALWAYS" />
+            <TextField fx:id="numberOfWords" editable="false" maxWidth="-Infinity" prefColumnCount="7" text="0" HBox.hgrow="ALWAYS" />
         </HBox>
+        <BarChart fx:id="timeChart" title="Time Consumed to Build Tree" GridPane.rowIndex="1">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </BarChart>
+        <BarChart title="Number of Comparison" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </BarChart>
+        <BarChart title="Height of Tree" GridPane.rowIndex="2">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </BarChart>
+        <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <WordFreqList AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+        </AnchorPane>
     </GridPane>
 </fx:root>

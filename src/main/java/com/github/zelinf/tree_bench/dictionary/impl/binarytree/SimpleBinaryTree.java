@@ -35,6 +35,7 @@ class SimpleBinaryTree<E> extends BinaryTree<E> {
             E newData = remapping.apply(elem, null);
             setRoot(new Node<>(newData));
             size++;
+            return newData;
         }
         return putOrUpdateNode(getRoot(), elem, remapping).getData();
     }

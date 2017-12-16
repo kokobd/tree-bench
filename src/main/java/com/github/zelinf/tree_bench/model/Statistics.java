@@ -1,16 +1,14 @@
 package com.github.zelinf.tree_bench.model;
 
-import com.github.zelinf.tree_bench.dictionary.Word;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.Pair;
 
 import java.time.Duration;
-import java.util.List;
 
 public class Statistics {
 
-    private ListProperty<WordFrequency> topWords = new SimpleListProperty<>();
+    private ListProperty<WordFrequency> allWords = new SimpleListProperty<>();
     private IntegerProperty totalWords = new SimpleIntegerProperty();
     private IntegerProperty numberOfComp = new SimpleIntegerProperty();
     private ObjectProperty<Duration> timeElapsed = new SimpleObjectProperty<>();
@@ -18,18 +16,32 @@ public class Statistics {
     private ListProperty<WordFrequency> deepestWords = new SimpleListProperty<>();
 
     public Statistics() {
+        init();
     }
 
-    public ObservableList<WordFrequency> getTopWords() {
-        return topWords.get();
+    public void clear() {
+        init();
     }
 
-    public ListProperty<WordFrequency> topWordsProperty() {
-        return topWords;
+    private void init() {
+        allWords.set(FXCollections.observableArrayList());
+        totalWords.set(0);
+        numberOfComp.set(0);
+        timeElapsed.set(Duration.ofMillis(0));
+        heightOfTree.set(0);
+        deepestWords.set(FXCollections.observableArrayList());
     }
 
-    public void setTopWords(ObservableList<WordFrequency> topWords) {
-        this.topWords.set(topWords);
+    public ObservableList<WordFrequency> getAllWords() {
+        return allWords.get();
+    }
+
+    public ListProperty<WordFrequency> allWordsProperty() {
+        return allWords;
+    }
+
+    public void setAllWords(ObservableList<WordFrequency> allWords) {
+        this.allWords.set(allWords);
     }
 
     public int getTotalWords() {

@@ -10,13 +10,13 @@ public class InorderIterator<E> implements Iterator<E> {
     private Deque<BinaryTree.Node<E>> stack = new ArrayDeque<>();
 
     InorderIterator(BinaryTree.Node<E> root) {
-        stack.push(root);
         pushLeftNodes(root);
     }
 
     private void pushLeftNodes(BinaryTree.Node<E> current) {
         while (current != null) {
-            stack.push(current.getLeft());
+            stack.push(current);
+            current = current.getLeft();
         }
     }
 
@@ -32,7 +32,7 @@ public class InorderIterator<E> implements Iterator<E> {
         }
 
         BinaryTree.Node<E> top = stack.pop();
-        pushLeftNodes(top);
+        pushLeftNodes(top.getRight());
         return top.getData();
     }
 

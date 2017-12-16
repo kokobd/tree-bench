@@ -4,6 +4,7 @@ import com.github.zelinf.tree_bench.dictionary.TreeDictionary;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionaryFactory;
 import com.github.zelinf.tree_bench.dictionary.Word;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.util.Pair;
 
@@ -31,36 +32,29 @@ public class DictionariesModel {
     private void initDictionaries() {
         List<TreeDictionary<Word, Integer>> dictionaries =
                 TreeDictionaryFactory.allDictionaries();
-        dictionaryStats.clear();
+        dictionaryStats.set(FXCollections.observableArrayList());
         for (TreeDictionary<Word, Integer> dictionary : dictionaries) {
             DictionaryStat dictionaryStat = new DictionaryStat(dictionary);
             dictionaryStats.add(dictionaryStat);
         }
     }
 
-    public void addFile(Path path) {
-        if (!Files.isRegularFile(path)) {
-            throw new IllegalArgumentException("Can only add text files");
-        }
-
-        List<Word> words;
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
-            words = Collections.unmodifiableList(Word.readWords(reader));
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new AddFileException("Failed to add file due to IO error.", e);
+    public void addFiles(Collection<? extends Path> paths) {
+        List<Word> words = new ArrayList<>();
+        for (Path path : paths) {
+            if (Files.isRegularFile(path)) {
+                try (BufferedReader reader = Files.newBufferedReader(path)) {
+                    words.addAll(Word.readWords(reader));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new AddFileException("Failed to add file due to IO error.", e);
+                }
+            }
         }
 
         for (DictionaryStat stat : dictionaryStats) {
             stat.addWords(words);
         }
-    }
-
-    private List<Pair<Word, Integer>> findTopWords(TreeDictionary<Word, Integer> dictionary) {
-        for (Map.Entry<Word, Integer> entry : dictionary) {
-
-        }
-        return null; // TODO
     }
 
     public static class AddFileException extends RuntimeException {
@@ -74,7 +68,33 @@ public class DictionariesModel {
     }
 
     public void clear() {
-        initDictionaries();
+        for (DictionaryStat stat : dictionaryStats) {
+            stat.clear();
+        }
+    }
+
+    private List<ReadOnlyStringProperty> treeNameProperties;
+
+    public List<ReadOnlyStringProperty> nameProperties() {
+        if (treeNameProperties == null) {
+            treeNameProperties = new ArrayList<>();
+            for (DictionaryStat stat : getDictionaryStats()) {
+                treeNameProperties.add(stat.dictionaryNameProperty());
+            }
+        }
+        return treeNameProperties;
+    }
+
+    private List<ObjectProperty<Duration>> timeProperties;
+
+    public List<ObjectProperty<Duration>> timeProperties() {
+        if (timeProperties == null) {
+            timeProperties = new ArrayList<>();
+            for (DictionaryStat stat : getDictionaryStats()) {
+                timeProperties.add(stat.getStatistics().timeElapsedProperty());
+            }
+        }
+        return timeProperties;
     }
 
     public ObservableList<DictionaryStat> getDictionaryStats() {

@@ -7,6 +7,14 @@ public class WordFrequency {
     private Word word;
     private int frequency;
 
+    public WordFrequency() {
+    }
+
+    public WordFrequency(Word word, int frequency) {
+        this.word = word;
+        this.frequency = frequency;
+    }
+
     public Word getWord() {
         return word;
     }

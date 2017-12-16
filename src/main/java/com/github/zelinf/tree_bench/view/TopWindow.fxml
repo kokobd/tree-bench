@@ -8,23 +8,21 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<fx:root prefHeight="600.0" prefWidth="800.0" type="BorderPane"
-         fx:controller="com.github.zelinf.tree_bench.view.TopWindowController"
-         xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.TopWindowController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <Menu mnemonicParsing="false" text="Languages">
-                <MenuItem mnemonicParsing="false" text="Restart in..."/>
+                <MenuItem mnemonicParsing="false" text="Restart in..." />
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About"/>
+                <MenuItem mnemonicParsing="false" text="About" />
             </Menu>
         </MenuBar>
     </top>
     <center>
         <SplitPane dividerPositions="0.3" BorderPane.alignment="CENTER">
-            <FileAdder fx:id="fileAdder"/>
-            <StatisticsPane fx:id="statisticsPane"/>
+            <FileAdder fx:id="fileAdder" />
+            <StatisticsPane fx:id="statisticsPane" />
         </SplitPane>
     </center>
 </fx:root>

@@ -35,7 +35,7 @@ public class BinaryTreeDictionary<K, V> implements TreeDictionary<K, V> {
 
         int leftHeight = heightOfTree(root.getLeft());
         int rightHeight = heightOfTree(root.getRight());
-        return Integer.max(leftHeight, rightHeight);
+        return 1 + Integer.max(leftHeight, rightHeight);
     }
 
     @Override

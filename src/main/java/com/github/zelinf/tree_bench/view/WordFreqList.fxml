@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.WordFreqListController">
+   <TitledPane text="Title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <content>
+          <TableView fx:id="table">
+              <columns>
+                  <TableColumn fx:id="wordColumn" maxWidth="1.7976931348623157E308" minWidth="60.0" text="Word" />
+                  <TableColumn fx:id="freqColumn" maxWidth="1.7976931348623157E308" minWidth="60.0" text="Times" />
+              </columns>
+          </TableView>
+      </content>
+   </TitledPane>
+</fx:root>

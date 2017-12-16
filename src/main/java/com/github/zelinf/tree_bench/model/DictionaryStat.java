@@ -3,10 +3,11 @@ package com.github.zelinf.tree_bench.model;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionary;
 import com.github.zelinf.tree_bench.dictionary.Word;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ public class DictionaryStat {
 
     public DictionaryStat(TreeDictionary<Word, Integer> dictionary) {
         this.dictionary = dictionary;
+        statistics.set(new Statistics());
+        dictionaryName.set(dictionary.getName());
     }
 
     public void addWords(List<Word> words) {
@@ -31,7 +34,7 @@ public class DictionaryStat {
         Duration timeElapsed = Duration.of(end - begin, ChronoUnit.NANOS);
         statistics.getValue().setTimeElapsed(timeElapsed);
 
-        statistics.getValue().getTopWords().setAll(findTopWords());
+        statistics.getValue().setAllWords(allWordsOf(dictionary));
         statistics.getValue().setTotalWords(dictionary.size());
 
         Comparator<? super Word> comparator = dictionary.getComparator();
@@ -45,27 +48,25 @@ public class DictionaryStat {
 
         {
             List<Map.Entry<Word, Integer>> deepestEntries = dictionary.deepestEntries();
-            ListProperty<WordFrequency> deepestWords = statistics.getValue().deepestWordsProperty();
-            addEntriesToListFreq(deepestEntries, deepestWords);
+            ObservableList<WordFrequency> deepestWords = FXCollections.observableArrayList();
+            for (Map.Entry<Word, Integer> entry : deepestEntries) {
+                deepestWords.add(new WordFrequency(entry.getKey(), entry.getValue()));
+            }
+            statistics.getValue().setDeepestWords(deepestWords);
         }
     }
 
-    private List<WordFrequency> findTopWords() {
-        List<WordFrequency> topWords = new ArrayList<>();
-        addEntriesToListFreq(dictionary, topWords);
-
-        topWords.sort(Comparator.comparingInt(WordFrequency::getFrequency));
-        return topWords;
+    public void clear() {
+        statistics.get().clear();
     }
 
-    private static void addEntriesToListFreq(Iterable<Map.Entry<Word, Integer>> entries,
-                                             List<WordFrequency> frequencies) {
-        for (Map.Entry<Word, Integer> entry : entries) {
-            WordFrequency wordFrequency = new WordFrequency();
-            wordFrequency.setWord(entry.getKey());
-            wordFrequency.setFrequency(entry.getValue());
-            frequencies.add(wordFrequency);
+    private ObservableList<WordFrequency> allWordsOf(TreeDictionary<Word, Integer> dictionary) {
+        ObservableList<WordFrequency> allWords = FXCollections.observableArrayList();
+        for (Map.Entry<Word, Integer> entry : dictionary) {
+            allWords.add(new WordFrequency(entry.getKey(), entry.getValue()));
         }
+
+        return allWords;
     }
 
     public String getDictionaryName() {
