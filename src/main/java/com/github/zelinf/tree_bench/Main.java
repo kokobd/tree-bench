@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("My Application");
+        primaryStage.setTitle("TreeBench");
 
         TopWindow topWindow = new TopWindow();
         Scene scene = new Scene(topWindow);

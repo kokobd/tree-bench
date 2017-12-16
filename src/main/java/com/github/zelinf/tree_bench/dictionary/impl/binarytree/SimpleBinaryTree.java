@@ -27,6 +27,12 @@ class SimpleBinaryTree<E> extends BinaryTree<E> {
     }
 
     @Override
+    void clear() {
+        super.clear();
+        size = 0;
+    }
+
+    @Override
     E putOrUpdate(E elem, BiFunction<? super E, ? super E, ? extends E> remapping) {
         Objects.requireNonNull(elem);
         Objects.requireNonNull(remapping);

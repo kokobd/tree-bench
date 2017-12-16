@@ -1,34 +1,46 @@
 package com.github.zelinf.tree_bench.model;
 
 import com.github.zelinf.tree_bench.dictionary.Word;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class WordFrequency {
 
-    private Word word;
-    private int frequency;
+    private ObjectProperty<Word> word = new SimpleObjectProperty<>();
+    private IntegerProperty frequency = new SimpleIntegerProperty();
 
     public WordFrequency() {
     }
 
     public WordFrequency(Word word, int frequency) {
-        this.word = word;
-        this.frequency = frequency;
+        this.word.set(word);
+        this.frequency.set(frequency);
     }
 
     public Word getWord() {
+        return word.get();
+    }
+
+    public ObjectProperty<Word> wordProperty() {
         return word;
     }
 
     public void setWord(Word word) {
-        this.word = word;
+        this.word.set(word);
     }
 
     public int getFrequency() {
+        return frequency.get();
+    }
+
+    public IntegerProperty frequencyProperty() {
         return frequency;
     }
 
     public void setFrequency(int frequency) {
-        this.frequency = frequency;
+        this.frequency.set(frequency);
     }
 
     @Override
@@ -39,14 +51,14 @@ public class WordFrequency {
         WordFrequency that = (WordFrequency) o;
 
         //noinspection SimplifiableIfStatement
-        if (getFrequency() != that.getFrequency()) return false;
-        return getWord() != null ? getWord().equals(that.getWord()) : that.getWord() == null;
+        if (!word.equals(that.word)) return false;
+        return frequency.equals(that.frequency);
     }
 
     @Override
     public int hashCode() {
-        int result = getWord() != null ? getWord().hashCode() : 0;
-        result = 31 * result + getFrequency();
+        int result = word.hashCode();
+        result = 31 * result + frequency.hashCode();
         return result;
     }
 }

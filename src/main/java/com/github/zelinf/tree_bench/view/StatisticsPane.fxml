@@ -1,66 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.zelinf.tree_bench.view.WordFreqList?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.StatisticsPaneController">
-    <GridPane AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="10.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints vgrow="SOMETIMES" />
-            <RowConstraints vgrow="SOMETIMES" />
-            <RowConstraints vgrow="SOMETIMES" />
-        </rowConstraints>
-        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.vgrow="NEVER">
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <Label text="Number of distinct words:">
-                <HBox.margin>
-                    <Insets right="10.0" />
-                </HBox.margin>
-            </Label>
-            <TextField fx:id="numberOfWords" editable="false" maxWidth="-Infinity" prefColumnCount="7" text="0" HBox.hgrow="ALWAYS" />
+    <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TableView fx:id="statTable" prefHeight="120.0" prefWidth="719.0">
+            <columns>
+                <TableColumn fx:id="dictNameColumn" editable="false" minWidth="-1.0" prefWidth="150.0" resizable="false" text="Tree Name" />
+                <TableColumn fx:id="timeConsumedColumn" editable="false" prefWidth="147.0" resizable="false" text="Time Consumed" />
+                <TableColumn fx:id="comparisonCountColumn" editable="false" prefWidth="180.0" resizable="false" text="Comparison Count" />
+                <TableColumn fx:id="treeHeightColumn" editable="false" prefWidth="120.0" resizable="false" text="Tree Height" />
+                <TableColumn fx:id="totalWordsColumn" editable="false" prefWidth="120.0" resizable="false" text="Total Words" />
+            </columns>
+        </TableView>
+        <HBox spacing="5.0" VBox.vgrow="ALWAYS">
+            <WordFreqList fx:id="allWordsTable" HBox.hgrow="ALWAYS" />
+            <WordFreqList fx:id="deepestWordsTable" HBox.hgrow="ALWAYS" />
         </HBox>
-        <BarChart fx:id="timeChart" title="Time Consumed to Build Tree" GridPane.rowIndex="1">
-            <xAxis>
-                <CategoryAxis side="BOTTOM" />
-            </xAxis>
-            <yAxis>
-                <NumberAxis side="LEFT" />
-            </yAxis>
-        </BarChart>
-        <BarChart title="Number of Comparison" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <xAxis>
-                <CategoryAxis side="BOTTOM" />
-            </xAxis>
-            <yAxis>
-                <NumberAxis side="LEFT" />
-            </yAxis>
-        </BarChart>
-        <BarChart title="Height of Tree" GridPane.rowIndex="2">
-            <xAxis>
-                <CategoryAxis side="BOTTOM" />
-            </xAxis>
-            <yAxis>
-                <NumberAxis side="LEFT" />
-            </yAxis>
-        </BarChart>
-        <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
-            <WordFreqList AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
-        </AnchorPane>
-    </GridPane>
+    </VBox>
 </fx:root>

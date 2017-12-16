@@ -105,4 +105,8 @@ abstract class BinaryTree<E> {
      * @return the updated value
      */
     abstract E putOrUpdate(E elem, BiFunction<? super E, ? super E, ? extends E> remapping);
+
+    void clear() {
+        root = null;
+    }
 }

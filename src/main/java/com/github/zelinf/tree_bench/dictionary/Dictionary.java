@@ -16,4 +16,6 @@ public interface Dictionary<K, V> extends Iterable<Map.Entry<K, V>> {
     default V get(K key) {
         return compute(key, (k, v) -> v);
     }
+
+    void clear();
 }

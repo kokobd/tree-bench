@@ -32,7 +32,7 @@ public class DictionaryStat {
         }
         long end = System.nanoTime();
         Duration timeElapsed = Duration.of(end - begin, ChronoUnit.NANOS);
-        statistics.getValue().setTimeElapsed(timeElapsed);
+        statistics.get().setTimeElapsed(timeElapsed.plus(statistics.get().getTimeElapsed()));
 
         statistics.getValue().setAllWords(allWordsOf(dictionary));
         statistics.getValue().setTotalWords(dictionary.size());
@@ -57,6 +57,7 @@ public class DictionaryStat {
     }
 
     public void clear() {
+        dictionary.clear();
         statistics.get().clear();
     }
 

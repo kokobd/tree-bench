@@ -3,19 +3,18 @@ package com.github.zelinf.tree_bench.model;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionary;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionaryFactory;
 import com.github.zelinf.tree_bench.dictionary.Word;
-import javafx.beans.property.*;
+import javafx.beans.property.ReadOnlyListProperty;
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Calculates statistics and benchmarking several
@@ -34,6 +33,7 @@ public class DictionariesModel {
                 TreeDictionaryFactory.allDictionaries();
         dictionaryStats.set(FXCollections.observableArrayList());
         for (TreeDictionary<Word, Integer> dictionary : dictionaries) {
+            dictionary.setComparator(new CountedComparator<>(Word::compareTo));
             DictionaryStat dictionaryStat = new DictionaryStat(dictionary);
             dictionaryStats.add(dictionaryStat);
         }
@@ -71,30 +71,6 @@ public class DictionariesModel {
         for (DictionaryStat stat : dictionaryStats) {
             stat.clear();
         }
-    }
-
-    private List<ReadOnlyStringProperty> treeNameProperties;
-
-    public List<ReadOnlyStringProperty> nameProperties() {
-        if (treeNameProperties == null) {
-            treeNameProperties = new ArrayList<>();
-            for (DictionaryStat stat : getDictionaryStats()) {
-                treeNameProperties.add(stat.dictionaryNameProperty());
-            }
-        }
-        return treeNameProperties;
-    }
-
-    private List<ObjectProperty<Duration>> timeProperties;
-
-    public List<ObjectProperty<Duration>> timeProperties() {
-        if (timeProperties == null) {
-            timeProperties = new ArrayList<>();
-            for (DictionaryStat stat : getDictionaryStats()) {
-                timeProperties.add(stat.getStatistics().timeElapsedProperty());
-            }
-        }
-        return timeProperties;
     }
 
     public ObservableList<DictionaryStat> getDictionaryStats() {

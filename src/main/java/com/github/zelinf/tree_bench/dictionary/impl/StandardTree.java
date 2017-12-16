@@ -53,6 +53,11 @@ public class StandardTree<K, V> implements TreeDictionary<K, V> {
     }
 
     @Override
+    public void clear() {
+        treeMap.clear();
+    }
+
+    @Override
     public Iterator<Map.Entry<K, V>> iterator() {
         return treeMap.entrySet().iterator();
     }

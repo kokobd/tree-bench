@@ -13,14 +13,12 @@ class CountedComparator<T> implements Comparator<T> {
 
     private Comparator<T> comparator;
 
-    public CountedComparator(Comparator<T> comparator) {
-        Objects.requireNonNull(comparator);
-        this.comparator = comparator;
-    }
-
     @SuppressWarnings("unchecked")
-    public CountedComparator() {
-        comparator = (Comparator<T>) Comparator.naturalOrder();
+    public CountedComparator(Comparator<T> comparator) {
+        if (comparator == null) {
+            comparator = (Comparator<T>) Comparator.naturalOrder();
+        }
+        this.comparator = comparator;
     }
 
     @Override

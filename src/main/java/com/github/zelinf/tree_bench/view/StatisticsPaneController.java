@@ -1,59 +1,89 @@
 package com.github.zelinf.tree_bench.view;
 
+import com.github.zelinf.tree_bench.dictionary.Word;
 import com.github.zelinf.tree_bench.model.DictionariesModel;
-import javafx.beans.Observable;
-import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.github.zelinf.tree_bench.model.DictionaryStat;
+import com.github.zelinf.tree_bench.model.WordFrequency;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.util.Callback;
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 public class StatisticsPaneController {
 
     @FXML
-    private TextField numberOfWords;
-
-    @FXML
-    private BarChart<String, Long> timeChart;
-
-    @FXML
     private void initialize() {
         dictionariesModel.set(new DictionariesModel());
-        getDictionariesModel().getDictionaryStats().get(0).getStatistics().totalWordsProperty()
-                .addListener((observable, oldValue, newValue) -> numberOfWords.setText(newValue.toString()));
-
-        setUpTimeChart();
+        setUpStatTable();
+        setUpAllWordsTable();
+        setUpDeepestWordsTable();
     }
 
-    private void setUpTimeChart() {
-        timeChart.getXAxis().setLabel("Trees");
-        timeChart.getYAxis().setLabel("Time(ms)");
+    @FXML
+    private TableView<DictionaryStat> statTable;
 
-        XYChart.Series<String, Long> dataSeries = new XYChart.Series<>();
-        timeChart.getData().add(dataSeries);
+    @FXML
+    private TableColumn<DictionaryStat, String> dictNameColumn;
 
-        dictionariesModel.getValue().timeProperties().get(0).addListener((observable, oldValue, newValue) -> {
-            ObservableList<XYChart.Data<String, Long>> chartData = FXCollections.observableArrayList();
-            List<ReadOnlyStringProperty> nameProperties = dictionariesModel.get().nameProperties();
-            List<ObjectProperty<Duration>> timeProperties = dictionariesModel.get().timeProperties();
-            for (int i = 0; i < nameProperties.size(); i++) {
-                chartData.add(new XYChart.Data<>(nameProperties.get(i).get(),
-                        timeProperties.get(i).get().get(ChronoUnit.NANOS) / 1000000));
+    @FXML
+    private TableColumn<DictionaryStat, Duration> timeConsumedColumn;
+
+    @FXML
+    private TableColumn<DictionaryStat, Number> comparisonCountColumn;
+
+    @FXML
+    private TableColumn<DictionaryStat, Number> treeHeightColumn;
+
+    @FXML
+    private TableColumn<DictionaryStat, Number> totalWordsColumn;
+
+    private void setUpStatTable() {
+        dictNameColumn.setCellValueFactory(param -> param.getValue().dictionaryNameProperty());
+        timeConsumedColumn.setCellValueFactory(param -> param.getValue().getStatistics().timeElapsedProperty());
+        timeConsumedColumn.setCellFactory(new Callback<TableColumn<DictionaryStat, Duration>, TableCell<DictionaryStat, Duration>>() {
+            @Override
+            public TableCell<DictionaryStat, Duration> call(TableColumn<DictionaryStat, Duration> param) {
+                return new TableCell<DictionaryStat, Duration>() {
+                    @Override
+                    protected void updateItem(Duration item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(Integer.valueOf(item.getNano() / 1000_000).toString());
+                        }
+                    }
+                };
             }
-            dataSeries.setData(chartData);
         });
+        comparisonCountColumn.setCellValueFactory(param -> param.getValue().getStatistics().numberOfCompProperty());
+        treeHeightColumn.setCellValueFactory(param -> param.getValue().getStatistics().heightOfTreeProperty());
+        totalWordsColumn.setCellValueFactory(param -> param.getValue().getStatistics().totalWordsProperty());
+
+        statTable.setItems(getDictionariesModel().getDictionaryStats());
     }
+
+    @FXML
+    private WordFreqList allWordsTable;
+
+    private void setUpAllWordsTable() {
+        allWordsTable.titleProperty().set("All Words");
+        allWordsTable.wordsProperty().bind(getDictionariesModel().getDictionaryStats().get(0).getStatistics().allWordsProperty());
+    }
+
+    @FXML
+    private WordFreqList deepestWordsTable;
+
+    private void setUpDeepestWordsTable() {
+        deepestWordsTable.titleProperty().set("Deepest Words");
+        deepestWordsTable.wordsProperty().bind(getDictionariesModel().getDictionaryStats().get(1).getStatistics().deepestWordsProperty());
+    }
+
 
     private ReadOnlyObjectWrapper<DictionariesModel> dictionariesModel = new ReadOnlyObjectWrapper<>();
 

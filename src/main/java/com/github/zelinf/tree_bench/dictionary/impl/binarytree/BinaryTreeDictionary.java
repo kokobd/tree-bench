@@ -103,6 +103,11 @@ public class BinaryTreeDictionary<K, V> implements TreeDictionary<K, V> {
     }
 
     @Override
+    public void clear() {
+        tree.clear();
+    }
+
+    @Override
     public Iterator<Map.Entry<K, V>> iterator() {
         return tree.inorderIterator();
     }
