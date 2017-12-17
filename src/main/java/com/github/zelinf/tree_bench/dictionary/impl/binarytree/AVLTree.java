@@ -35,7 +35,9 @@ class AVLTree<E> extends BinaryTree<E> {
     private AVLNode<E> putOrUpdateNode(AVLNode<E> node, E elem, BiFunction<? super E, ? super E, ? extends E> remapping) {
         if (node == null) {
             ++size;
-            return new AVLNode<>(remapping.apply(elem, null));
+            AVLNode<E> newNode = new AVLNode<>(remapping.apply(elem, null));
+            newNode.setHeight(1);
+            return newNode;
         }
         Comparator<? super E> comparator = getComparator();
         {
