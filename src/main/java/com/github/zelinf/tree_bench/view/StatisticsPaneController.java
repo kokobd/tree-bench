@@ -1,16 +1,15 @@
 package com.github.zelinf.tree_bench.view;
 
-import com.github.zelinf.tree_bench.dictionary.Word;
 import com.github.zelinf.tree_bench.model.DictionariesModel;
 import com.github.zelinf.tree_bench.model.DictionaryStat;
-import com.github.zelinf.tree_bench.model.WordFrequency;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.time.Duration;
 
@@ -77,11 +76,35 @@ public class StatisticsPaneController {
     }
 
     @FXML
+    private ComboBox<DictionaryStat> deepestWordsTreeSelector;
+
+    @FXML
     private WordFreqList deepestWordsTable;
 
     private void setUpDeepestWordsTable() {
         deepestWordsTable.titleProperty().set("Deepest Words");
         deepestWordsTable.wordsProperty().bind(getDictionariesModel().getDictionaryStats().get(1).getStatistics().deepestWordsProperty());
+
+        deepestWordsTreeSelector.setItems(getDictionariesModel().getDictionaryStats());
+        deepestWordsTreeSelector.setConverter(new StringConverter<DictionaryStat>() {
+            @Override
+            public String toString(DictionaryStat stat) {
+                return stat.getDictionaryName();
+            }
+
+            @Override
+            public DictionaryStat fromString(String string) {
+                return null;
+            }
+        });
+        deepestWordsTreeSelector.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DictionaryStat>() {
+            @Override
+            public void changed(ObservableValue<? extends DictionaryStat> observable, DictionaryStat oldValue, DictionaryStat newValue) {
+                deepestWordsTable.wordsProperty().unbind();
+                deepestWordsTable.wordsProperty().bind(newValue.getStatistics().deepestWordsProperty());
+            }
+        });
+        deepestWordsTreeSelector.getSelectionModel().select(0);
     }
 
 

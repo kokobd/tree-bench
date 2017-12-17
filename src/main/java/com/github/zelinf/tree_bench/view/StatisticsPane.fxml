@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.zelinf.tree_bench.view.WordFreqList?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,7 +21,10 @@
         </TableView>
         <HBox spacing="5.0" VBox.vgrow="ALWAYS">
             <WordFreqList fx:id="allWordsTable" HBox.hgrow="ALWAYS" />
-            <WordFreqList fx:id="deepestWordsTable" HBox.hgrow="ALWAYS" />
+            <VBox>
+                <ComboBox fx:id="deepestWordsTreeSelector"/>
+                <WordFreqList fx:id="deepestWordsTable"/>
+            </VBox>
         </HBox>
     </VBox>
 </fx:root>
