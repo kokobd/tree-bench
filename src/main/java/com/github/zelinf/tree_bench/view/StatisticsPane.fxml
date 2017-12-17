@@ -13,8 +13,8 @@
         <TableView fx:id="statTable" prefHeight="120.0" prefWidth="719.0">
             <columns>
                 <TableColumn fx:id="dictNameColumn" editable="false" minWidth="-1.0" prefWidth="150.0" resizable="false" text="Tree Name" />
-                <TableColumn fx:id="timeConsumedColumn" editable="false" prefWidth="147.0" resizable="false" text="Time Consumed" />
-                <TableColumn fx:id="comparisonCountColumn" editable="false" prefWidth="180.0" resizable="false" text="Comparison Count" />
+                <TableColumn fx:id="timeConsumedColumn" editable="false" prefWidth="170.0" resizable="false" text="Time Consumed (ms)" />
+                <TableColumn fx:id="comparisonCountColumn" editable="false" prefWidth="157.0" resizable="false" text="Comparison Count" />
                 <TableColumn fx:id="treeHeightColumn" editable="false" prefWidth="120.0" resizable="false" text="Tree Height" />
                 <TableColumn fx:id="totalWordsColumn" editable="false" prefWidth="120.0" resizable="false" text="Total Words" />
             </columns>
@@ -22,8 +22,8 @@
         <HBox spacing="5.0" VBox.vgrow="ALWAYS">
             <WordFreqList fx:id="allWordsTable" HBox.hgrow="ALWAYS" />
             <VBox>
-                <ComboBox fx:id="deepestWordsTreeSelector"/>
-                <WordFreqList fx:id="deepestWordsTable"/>
+                <ComboBox fx:id="deepestWordsTreeSelector" />
+                <WordFreqList fx:id="deepestWordsTable" />
             </VBox>
         </HBox>
     </VBox>
