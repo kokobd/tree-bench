@@ -2,11 +2,13 @@ package com.github.zelinf.tree_bench.view;
 
 import com.github.zelinf.tree_bench.dictionary.Word;
 import com.github.zelinf.tree_bench.model.WordFrequency;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
@@ -26,6 +28,9 @@ public class WordFreqListController {
     private TableColumn<WordFrequency, Number> freqColumn;
 
     @FXML
+    private Label bottomLine;
+
+    @FXML
     private void initialize() {
         wordColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.6));
         freqColumn.prefWidthProperty().bind(table.widthProperty().multiply(0.4));
@@ -34,6 +39,17 @@ public class WordFreqListController {
         freqColumn.setCellValueFactory(param -> param.getValue().frequencyProperty());
 
         table.itemsProperty().bind(words);
+
+        bottomLine.textProperty().bind(new StringBinding() {
+            {
+                super.bind(words.sizeProperty());
+            }
+
+            @Override
+            protected String computeValue() {
+                return words.size() + " lines in total";
+            }
+        });
     }
 
     private ListProperty<WordFrequency> words = new SimpleListProperty<>();

@@ -3,6 +3,8 @@ package com.github.zelinf.tree_bench.model;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionary;
 import com.github.zelinf.tree_bench.dictionary.TreeDictionaryFactory;
 import com.github.zelinf.tree_bench.dictionary.Word;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
@@ -52,9 +54,21 @@ public class DictionariesModel {
             }
         }
 
+        totalWords.set(words.size());
+
         for (DictionaryStat stat : dictionaryStats) {
             stat.addWords(words);
         }
+    }
+
+    private ReadOnlyIntegerWrapper totalWords = new ReadOnlyIntegerWrapper();
+
+    public int getTotalWords() {
+        return totalWords.get();
+    }
+
+    public ReadOnlyIntegerProperty totalWordsProperty() {
+        return totalWords.getReadOnlyProperty();
     }
 
     public static class AddFileException extends RuntimeException {

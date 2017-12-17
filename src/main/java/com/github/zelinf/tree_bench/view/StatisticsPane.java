@@ -2,6 +2,7 @@ package com.github.zelinf.tree_bench.view;
 
 import com.github.zelinf.tree_bench.model.DictionariesModel;
 import com.github.zelinf.tree_bench.view.util.FXMLUtils;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.layout.AnchorPane;
 

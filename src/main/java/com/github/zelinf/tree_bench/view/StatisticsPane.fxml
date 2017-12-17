@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.github.zelinf.tree_bench.view.WordFreqList?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,13 +12,17 @@
 
 <fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.StatisticsPaneController">
     <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <TableView fx:id="statTable" prefHeight="120.0" prefWidth="719.0">
+      <Label fx:id="topLabel" maxWidth="1.7976931348623157E308" text="Total number of words: 0" VBox.vgrow="NEVER">
+         <VBox.margin>
+            <Insets bottom="2.0" left="5.0" right="5.0" />
+         </VBox.margin>
+      </Label>
+        <TableView fx:id="statTable" prefHeight="120.0">
             <columns>
                 <TableColumn fx:id="dictNameColumn" editable="false" minWidth="-1.0" prefWidth="150.0" resizable="false" text="Tree Name" />
                 <TableColumn fx:id="timeConsumedColumn" editable="false" prefWidth="170.0" resizable="false" text="Time Consumed (ms)" />
                 <TableColumn fx:id="comparisonCountColumn" editable="false" prefWidth="157.0" resizable="false" text="Comparison Count" />
                 <TableColumn fx:id="treeHeightColumn" editable="false" prefWidth="120.0" resizable="false" text="Tree Height" />
-                <TableColumn fx:id="totalWordsColumn" editable="false" prefWidth="120.0" resizable="false" text="Total Words" />
             </columns>
         </TableView>
         <HBox spacing="5.0" VBox.vgrow="ALWAYS">

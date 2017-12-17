@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.WordFreqListController">
+<fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.zelinf.tree_bench.view.WordFreqListController">
     <TitledPane fx:id="titledPane" animated="false" collapsible="false" text="Title" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <TableView fx:id="table">
-            <columns>
-                <TableColumn fx:id="wordColumn" maxWidth="1.7976931348623157E308" minWidth="60.0" prefWidth="133.0" text="Word" />
-                <TableColumn fx:id="freqColumn" maxWidth="1.7976931348623157E308" minWidth="27.0" prefWidth="96.0" text="Times" />
-            </columns>
-        </TableView>
+        <AnchorPane>
+            <padding>
+                <Insets top="1.0" />
+            </padding>
+            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <TableView fx:id="table" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="wordColumn" maxWidth="1.7976931348623157E308" minWidth="60.0" prefWidth="133.0" text="Word" />
+                        <TableColumn fx:id="freqColumn" maxWidth="1.7976931348623157E308" minWidth="27.0" prefWidth="96.0" text="Times" />
+                    </columns>
+                </TableView>
+                <Label fx:id="bottomLine" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="0 lines in total" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets right="5.0" />
+               </VBox.margin></Label>
+            </VBox>
+        </AnchorPane>
     </TitledPane>
 </fx:root>

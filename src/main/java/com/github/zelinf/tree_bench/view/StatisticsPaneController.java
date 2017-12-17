@@ -2,10 +2,11 @@ package com.github.zelinf.tree_bench.view;
 
 import com.github.zelinf.tree_bench.model.DictionariesModel;
 import com.github.zelinf.tree_bench.model.DictionaryStat;
+import javafx.beans.binding.StringBinding;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
@@ -21,7 +22,36 @@ public class StatisticsPaneController {
         setUpStatTable();
         setUpAllWordsTable();
         setUpDeepestWordsTable();
+
+        topLabel.textProperty().bind(new StringBinding() {
+            {
+                super.bind(totalWordsProperty());
+            }
+
+            @Override
+            protected String computeValue() {
+                return "Total number of words: " + totalWordsProperty().get();
+            }
+        });
+        totalWords.bind(getDictionariesModel().totalWordsProperty());
     }
+
+    private IntegerProperty totalWords = new SimpleIntegerProperty();
+
+    public int getTotalWords() {
+        return totalWords.get();
+    }
+
+    public IntegerProperty totalWordsProperty() {
+        return totalWords;
+    }
+
+    public void setTotalWords(int totalWords) {
+        this.totalWords.set(totalWords);
+    }
+
+    @FXML
+    private Label topLabel;
 
     @FXML
     private TableView<DictionaryStat> statTable;
@@ -37,9 +67,6 @@ public class StatisticsPaneController {
 
     @FXML
     private TableColumn<DictionaryStat, Number> treeHeightColumn;
-
-    @FXML
-    private TableColumn<DictionaryStat, Number> totalWordsColumn;
 
     private void setUpStatTable() {
         dictNameColumn.setCellValueFactory(param -> param.getValue().dictionaryNameProperty());
@@ -62,7 +89,6 @@ public class StatisticsPaneController {
         });
         comparisonCountColumn.setCellValueFactory(param -> param.getValue().getStatistics().numberOfCompProperty());
         treeHeightColumn.setCellValueFactory(param -> param.getValue().getStatistics().heightOfTreeProperty());
-        totalWordsColumn.setCellValueFactory(param -> param.getValue().getStatistics().totalWordsProperty());
 
         statTable.setItems(getDictionariesModel().getDictionaryStats());
     }
@@ -97,16 +123,12 @@ public class StatisticsPaneController {
                 return null;
             }
         });
-        deepestWordsTreeSelector.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<DictionaryStat>() {
-            @Override
-            public void changed(ObservableValue<? extends DictionaryStat> observable, DictionaryStat oldValue, DictionaryStat newValue) {
-                deepestWordsTable.wordsProperty().unbind();
-                deepestWordsTable.wordsProperty().bind(newValue.getStatistics().deepestWordsProperty());
-            }
+        deepestWordsTreeSelector.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            deepestWordsTable.wordsProperty().unbind();
+            deepestWordsTable.wordsProperty().bind(newValue.getStatistics().deepestWordsProperty());
         });
         deepestWordsTreeSelector.getSelectionModel().select(0);
     }
-
 
     private ReadOnlyObjectWrapper<DictionariesModel> dictionariesModel = new ReadOnlyObjectWrapper<>();
 
