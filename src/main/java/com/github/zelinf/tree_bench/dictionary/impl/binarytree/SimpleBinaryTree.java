@@ -80,5 +80,9 @@ class SimpleBinaryTree<E> extends BinaryTree<E> {
         Node(E data) {
             super(data);
         }
+
+        Node() {
+            super();
+        }
     }
 }

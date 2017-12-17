@@ -6,7 +6,7 @@ import java.util.Objects;
 public final class BinaryTreeDictionaryFactory {
 
     public enum Type {
-        SIMPLE
+        SIMPLE, AVL
     }
 
     public static <K, V> BinaryTreeDictionary<K, V> createBinaryTree(Type type) {
@@ -16,6 +16,9 @@ public final class BinaryTreeDictionaryFactory {
         switch (type) {
             case SIMPLE:
                 tree = new SimpleBinaryTree<>();
+                break;
+            case AVL:
+                tree = new AVLTree<>();
                 break;
             default:
                 tree = null;
